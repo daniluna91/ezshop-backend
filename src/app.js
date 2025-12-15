@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db.js');
 const cors = require('cors');
 
-// 🚨 IMPORTACIÓN DE RUTAS FALTANTES 🚨
+// rutas de andmin y autorizacion
 const authRoutes = require('./routes/authRoutes.js');
 const adminRoutes = require('./routes/adminRoutes.js');
 
