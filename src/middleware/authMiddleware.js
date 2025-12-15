@@ -1,15 +1,14 @@
-// EZSHOP/backend/middleware/authMiddleware.js (VERSIÓN FINAL Y FUNCIONAL)
 
 const jwt = require('jsonwebtoken');
-// ⚠️ Clave Secreta Fija
+// clave jwt
 const JWT_SECRET = '9023Newton.';
 
 /**
- * 1. Middleware para verificar si el token JWT es válido.
- * Definida con 'const' para una exportación limpia.
+ * middleware para verificar si el token jwt es valido.
+ * esta en const para que se exporte
  */
 const verifyToken = async (req, res, next) => {
-  // ⬅️ Usamos 'const' aquí
+  // el const para que exporte
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -32,11 +31,11 @@ const verifyToken = async (req, res, next) => {
 };
 
 /**
- * 2. Middleware de Autorización: Verifica si el rol es 'admin'.
- * Definida con 'const' para una exportación limpia.
+ * para verificar el admin
+ * esta en const para que se exporte
  */
 const isAdmin = (req, res, next) => {
-  // ⬅️ Usamos 'const' aquí
+  // el const
   if (req.user && req.user.role === 'admin') {
     next();
   } else {
@@ -44,6 +43,5 @@ const isAdmin = (req, res, next) => {
   }
 };
 
-// 3. 🚨 CORRECCIÓN CLAVE DE EXPORTACIÓN: Usamos el shorthand de JS
-// Ahora que están definidas con 'const', esta sintaxis es correcta y robusta.
+// exportacion 
 module.exports = { verifyToken, isAdmin };
