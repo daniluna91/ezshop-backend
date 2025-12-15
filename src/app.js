@@ -11,7 +11,7 @@ dotenv.config();
 
 const app = express();
 
-// Middlewares estándar de Express (necesarios para recibir JSON y POSTs)
+// middlewares de express
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
@@ -25,17 +25,16 @@ app.use(
   })
 );
 
-// --- CONEXIÓN DE RUTAS API (Despues de los Middlewares) ---
+// rutas api conexion
 app.use('/api/auth', authRoutes); // Tus rutas de login/registro (YA EXISTE)
 
-// ➡️ CONEXIÓN DE RUTAS FALTANTES
-// Conectamos adminRoutes (donde está POST /products) al prefijo /api
+// conexion rutas admin
 app.use('/api', adminRoutes);
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Servidor Express corriendo en el puerto ${PORT}`);
-  // Llama a la conexión de la BD después de iniciar el servidor
+  // llama a la db
   connectDB();
 });

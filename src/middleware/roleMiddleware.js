@@ -1,5 +1,3 @@
-// EZShop
-
 const checkRole = (roles) => (req, res, next) => {
   if (!req.user) {
     return res.status(500).json({

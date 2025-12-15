@@ -1,5 +1,3 @@
-// EZSHOP/backend/controllers/authController.js
-
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
@@ -8,61 +6,60 @@ const User = require('../models/User');
 const JWT_SECRET = '9023Newton.';
 const SALT_ROUNDS = 10;
 
-// ---------------------------------------------------------------------
 
-// --- REGISTRO DE USUARIO ---
+// register
 const register = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // 1. Verificar si el usuario ya existe
+    // 1 verifica si existe
     if (await User.findOne({ email })) {
       return res.status(400).json({ message: 'El usuario ya existe.' });
     }
 
-    // 2. Hash de la contraseña
+    // 2 hash de la contraseña
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-    // 3. Crear nuevo usuario y asignar rol por defecto 'user'
+    // 3 crear user y asignar rol 'user'
     const user = await User.create({
       email,
       password: hashedPassword,
       role: 'user',
     });
 
-    // 4. Respuesta de éxito
+    // 4 estamos in
     res.status(201).json({ message: 'Usuario registrado exitosamente.' });
   } catch (error) {
-    // Retorna 500 Internal Server Error (si falla la DB, etc.)
+    // si falla la db sale error 500
     res.status(500).json({ message: 'Error en el registro.', error: error.message });
   }
 };
 
-// --- INICIO DE SESIÓN ---
+// inicio de sesion
 const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // 1. Encontrar usuario por email (incluyendo la contraseña hasheada)
+    // 1 encontrar usuario por email 
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
       return res.status(400).json({ message: 'Credenciales inválidas.' });
     }
 
-    // 2. Comparar la contraseña ingresada con el hash
+    // 2 comparar usuarios por el hash
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Credenciales inválidas.' });
     }
 
-    // 3. Generar el JWT (Payload: id y role son CLAVE para la seguridad)
+    // 3 generar el JWT
     const token = jwt.sign(
       { id: user._id, role: user.role },
       JWT_SECRET, // ⬅️ Usamos la clave fija
       { expiresIn: '1h' }
     );
 
-    // 4. Respuesta de éxito con el token
+    // 4 respuesta de exito con el token
     res.status(200).json({
       token,
       user: { id: user._id, email: user.email, role: user.role },
