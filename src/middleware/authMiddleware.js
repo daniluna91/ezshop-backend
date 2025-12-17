@@ -1,4 +1,3 @@
-
 const jwt = require('jsonwebtoken');
 // clave jwt
 const JWT_SECRET = '9023Newton.';
@@ -43,5 +42,5 @@ const isAdmin = (req, res, next) => {
   }
 };
 
-// exportacion 
+// exportacion
 module.exports = { verifyToken, isAdmin };
