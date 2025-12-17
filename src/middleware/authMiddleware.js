@@ -18,8 +18,9 @@ const verifyToken = async (req, res, next) => {
 
   const token = authHeader.split(' ')[1];
 
+  // try catch para manejar errores y verificar el token
   try {
-    const decoded = jwt.verify(token, JWT_SECRET); // ⬅️ Usa JWT_SECRET
+    const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
     next();
   } catch (error) {
@@ -34,7 +35,7 @@ const verifyToken = async (req, res, next) => {
  * esta en const para que se exporte
  */
 const isAdmin = (req, res, next) => {
-  // el const
+  // isAdmin verifica si el usuario es admin e if lo es, next() si no, error
   if (req.user && req.user.role === 'admin') {
     next();
   } else {

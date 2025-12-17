@@ -6,7 +6,7 @@ const checkRole = (roles) => (req, res, next) => {
   }
 
   const userRole = req.user.role;
-
+  //if para verificar si el usuario tiene el rol correcto
   if (!roles.includes(userRole)) {
     return res.status(403).json({
       message: 'Acceso denegado. Permiso insuficiente.',

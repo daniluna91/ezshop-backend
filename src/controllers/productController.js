@@ -8,7 +8,7 @@ const createProduct = async (req, res) => {
 
   // logica de simulacion
 
-  // exito (201 Created)
+  // exito (201 Created) return para enviar la respuesta
   return res.status(201).json({
     message: 'Producto creado exitosamente (Simulación). El token y el rol fueron verificados.',
     data_recibida: req.body,

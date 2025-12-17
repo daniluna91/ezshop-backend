@@ -6,11 +6,11 @@ const User = require('../models/User');
 const JWT_SECRET = '9023Newton.';
 const SALT_ROUNDS = 10;
 
-
 // register
 const register = async (req, res) => {
   const { email, password } = req.body;
 
+  //uso try para manejar errores, if para verificar si existe, await para esperar la respuesta
   try {
     // 1 verifica si existe
     if (await User.findOne({ email })) {
@@ -39,27 +39,28 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
+  //try catch para manejar errores, findOne para encontrar usuario por email, select para seleccionar la contraseña
   try {
-    // 1 encontrar usuario por email 
+    // 1 encontrar usuario por email
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
       return res.status(400).json({ message: 'Credenciales inválidas.' });
     }
 
-    // 2 comparar usuarios por el hash
+    // 2 comparar usuarios por el hash, isMatch para verificar si coinciden
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Credenciales inválidas.' });
     }
 
-    // 3 generar el JWT
+    // 3 generar el JWT, jwt.sign para generar el token
     const token = jwt.sign(
       { id: user._id, role: user.role },
-      JWT_SECRET, // ⬅️ Usamos la clave fija
+      JWT_SECRET, // usamos la clave fija
       { expiresIn: '1h' }
     );
 
-    // 4 respuesta de exito con el token
+    // 4 respuesta de exito con el token, json para enviar la respuesta
     res.status(200).json({
       token,
       user: { id: user._id, email: user.email, role: user.role },
