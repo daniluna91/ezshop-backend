@@ -36,7 +36,7 @@ app.use('/api/auth', authRoutes); //rutas de login/registro (YA EXISTE)
 // conexion rutas admin
 app.use('/api', adminRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000; // || se puede usar para asignar un valor por defecto
 
 app.listen(PORT, () => {
   console.log(`Servidor Express corriendo en el puerto ${PORT}`);

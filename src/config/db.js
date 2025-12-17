@@ -6,7 +6,7 @@ const connectDB = async () => {
       console.error('ERROR: La variable de entorno MONGO_URI no está definida en .env');
       process.exit(1);
     }
-
+    // await para esperar la respuesta y mongoose.connect para conectar a la base de datos
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Conexión exitosa a MongoDB.');
   } catch (error) {
