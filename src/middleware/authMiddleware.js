@@ -9,7 +9,7 @@ const JWT_SECRET = '9023Newton.';
 const verifyToken = async (req, res, next) => {
   // el const para que exporte
   const authHeader = req.headers.authorization;
-
+  // Bearer es el tipo de autenticacion, usamos if para verificar si el token es valido
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({
       message: 'Acceso denegado. Se requiere autenticación.',
